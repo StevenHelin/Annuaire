@@ -51,6 +51,6 @@ public class PersonServices implements DictionnaryItf {
 
     @Override
     public void addPerson(Person p) {
-        hm.put(hm.size(),p);
+        hm.put(hm.size()+1,p);
     }
 }

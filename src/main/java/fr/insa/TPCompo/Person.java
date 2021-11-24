@@ -19,6 +19,14 @@ public class Person {
         this.phone = phone;
         this.city = city;
     }
+    public Person(String name, String surname, String phone, String city) {
+
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.phone = phone;
+        this.city = city;
+    }
 
     public int getId() {
         return id;

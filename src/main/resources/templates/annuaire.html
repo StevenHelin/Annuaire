@@ -32,6 +32,9 @@
         <div class="divCell" data-title="City">
             <span th:text="${entry.getCity()}"> City </span>
         </div>
+        <div class="divCell" data-title="Action">
+            <a th:href="@{|/annuaire/supprimer/${entry.getId()}|}"> Supprimer </a>
+        </div>
     </div>
     </th:block>
 </div>
