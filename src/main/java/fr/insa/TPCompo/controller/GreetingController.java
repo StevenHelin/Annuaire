@@ -35,6 +35,12 @@ public String ajouter(Model model) {
         return "ajout";
     }
 
+@GetMapping("/modification/{id}")
+public String modification(Model model,@PathVariable int id){
+    model.addAttribute("entry",services.getFromId(id));
+    return "Modification";
+    }
+
 
 
 
@@ -62,4 +68,12 @@ public String ajouter(Model model) {
             model.addAttribute("entries", services.getAll());
             return "redirect:/annuaire";
         }
+
+    @PostMapping("/annuaire/modifier")
+    public String modifier(Model model,@RequestParam (name="id", required=true) int id,@RequestParam (name="name", required=false) String name,@RequestParam (name="surname", required=false) String surname,@RequestParam (name="phone", required=false) String phone,@RequestParam (name="city", required=false) String city){
+
+        this.services.addPerson(new Person(id,name,surname,phone,city));
+        this.services.deleteFromId(id);
+        return "redirect:/annuaire";
+    }
 }
