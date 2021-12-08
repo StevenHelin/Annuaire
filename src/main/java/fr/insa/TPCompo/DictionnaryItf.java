@@ -8,7 +8,7 @@ public interface DictionnaryItf {
     public Collection<Person> getAll();
     public Optional<Person> getFromId(long id);
     public List<Person> getFromName(String name);
-    public void deleteById(long id);
+    public void deleteById(Long id);
     public void addPerson(Person p);
 
 }

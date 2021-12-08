@@ -10,6 +10,6 @@ public interface PersonRepository extends JpaRepository<Person,Long> {
     public List<Person> findAll();
     public Optional<Person> findById(long id);
     public List<Person> findByName(String name);
-    public void deleteById(long id);
+    public void deleteById(Long id);
 
 }

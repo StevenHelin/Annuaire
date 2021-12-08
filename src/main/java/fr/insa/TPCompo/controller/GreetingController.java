@@ -8,13 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class GreetingController {
+
+@Autowired
+    PersonServices ps;
 
 @Autowired
     PersonRepository personRepository;
@@ -28,7 +28,7 @@ public class GreetingController {
 
 @GetMapping("/annuaire")
     public String recherche(Model model) {
-        model.addAttribute("entries", personRepository.findAll());
+        model.addAttribute("entries", ps.getAll());
         return "annuaire";
     }
 
@@ -39,7 +39,7 @@ public String ajouter(Model model) {
 
 @GetMapping("/modification/{id}")
 public String modification(Model model,@PathVariable int id){
-    model.addAttribute("entry",personRepository.findById(id));
+    model.addAttribute("entry",ps.getFromId(id));
     return "Modification";
     }
 
@@ -48,7 +48,7 @@ public String modification(Model model,@PathVariable int id){
 
     @GetMapping("/annuaire/recherche")
     public String recherche(Model model,@RequestParam (name="name", required=false) String name) {
-         model.addAttribute("entries", personRepository.findByName(name));
+         model.addAttribute("entries", ps.getFromName(name));
         return "annuaire";
     }
 
@@ -60,22 +60,27 @@ public String modification(Model model,@PathVariable int id){
 
     @GetMapping("/annuaire/ajouter")
     public String rechercheAjout(Model model) {
-        model.addAttribute("entries", personRepository.findAll());
+        model.addAttribute("entries", ps.getAll());
         return "redirect:/annuaire";
     }
 
         @GetMapping("/annuaire/supprimer/{id}")
-        public String suppprime(Model model, @PathVariable long id) {
-            personRepository.deleteById(id);
-            model.addAttribute("entries", personRepository.findAll());
+        public String suppprime(Model model, @PathVariable Long id) {
+            ps.deleteById(id);
+            model.addAttribute("entries", ps.getAll());
             return "redirect:/annuaire";
         }
 
     @PostMapping("/annuaire/modifier")
-    public String modifier(Model model,@RequestParam (name="id", required=true) int id,@RequestParam (name="name", required=false) String name,@RequestParam (name="surname", required=false) String surname,@RequestParam (name="phone", required=false) String phone,@RequestParam (name="city", required=false) String city){
-
-        this.personRepository.save(new Person(id,name,surname,phone,city));
-        this.personRepository.deleteById(id);
+    public String modifier(Model model,@RequestParam (name="id", required=true) Long id,@RequestParam (name="name", required=false) String name,@RequestParam (name="surname", required=false) String surname,@RequestParam (name="phone", required=false) String phone,@RequestParam (name="city", required=false) String city){
+        Optional<Person> p=this.ps.getFromId(id);
+        if (p.isPresent()){
+            p.get().setCity(city);
+            p.get().setName(name);
+            p.get().setSurname(surname);
+            p.get().setPhone(phone);
+            personRepository.save(p.get());
+        }
         return "redirect:/annuaire";
     }
 }

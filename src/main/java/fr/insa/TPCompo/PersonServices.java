@@ -28,7 +28,7 @@ public class PersonServices implements DictionnaryItf {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         personrepo.deleteById(id);
     }
 
@@ -36,4 +36,5 @@ public class PersonServices implements DictionnaryItf {
     public void addPerson(Person p) {
     personrepo.save(p);
     }
+
 }
