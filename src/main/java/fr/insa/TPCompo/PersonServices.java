@@ -1,56 +1,39 @@
 package fr.insa.TPCompo;
 
+import fr.insa.TPCompo.repository.PersonRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.util.*;
 
 @Service
 public class PersonServices implements DictionnaryItf {
 
-    private Map<Integer, Person> hm ;
-
-    public PersonServices() {
-        hm = new HashMap<Integer, Person>();
-        hm.put(1, new Person(1, "Steven",
-                "Helin"
-                ,
-                "0606060606", "Anzin"));
-        hm.put(2, new Person(2, "Dylan", "Helin", "0707070707", "Anzin"));
-        hm.put(3, new Person(3, "Pauline", "Polvent", "0781889125", "Maubeuge"));
-
-    }
-
+    @Autowired
+    PersonRepository personrepo;
 
     @Override
     public Collection<Person> getAll() {
-        return hm.values();
+        return personrepo.findAll();
     }
 
     @Override
-    public Person getFromId(int id) {
-        return hm.get(id);
+    public Optional<Person> getFromId(long id) {
+        return personrepo.findById(id);
     }
 
     @Override
     public List<Person> getFromName(String name) {
-        List<Person> listPerson= new ArrayList<Person>();
-        for (Person p: hm.values()){
-            if (p.getName().equals(name)){
-                listPerson.add(p);
-            }
-        }
-        return listPerson;
+       return personrepo.findByName(name);
     }
 
     @Override
-    public boolean deleteFromId(int id) {
-        hm.remove(id);
-        return true;
+    public void deleteById(long id) {
+        personrepo.deleteById(id);
     }
 
     @Override
     public void addPerson(Person p) {
-        hm.put(hm.size()+1,p);
+    personrepo.save(p);
     }
 }
