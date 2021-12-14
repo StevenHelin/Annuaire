@@ -13,7 +13,7 @@ public class PersonServices implements DictionnaryItf {
     PersonRepository personrepo;
 
     @Override
-    public Collection<Person> getAll() {
+    public List<Person> getAll() {
         return personrepo.findAll();
     }
 
