@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Modification</title>
+</head>
+<body>
+<p><center>Modification d'une personne dans l'annuaire</center> </p>
+<fieldset>
+    <form action="/annuaire/modifier" method="post">
+        <label for="id">ID:
+        <input type="text" id="id" name="id" size = "30" readonly th:value="${entry.get().getId()}"/>
+        </label><br>
+        <label for="name">Prenom :
+            <input type="text" id="name" name="name" size = "30" th:value="${entry.get().getName()}"/>
+        </label><br>
+        <label for="surname">Nom :
+            <input type="text" id="surname" name="surname" size = "30" th:value="${entry.get().getSurname()}"/>
+        </label><br>
+        <label for="phone">Telephone :
+            <input type="text" id="phone" name="phone" size = "30" th:value="${entry.get().getPhone()}"/>
+        </label><br>
+        <label for="city">Ville :
+            <input type="text" id="city" name="city" size = "30" th:value="${entry.get().getCity()}"/>
+        </label><br>
+        <input type="submit" value="Submit" />
+    </form>
+</fieldset>
+</body>
+</html>

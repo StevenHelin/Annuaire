@@ -1,8 +1,15 @@
 package fr.insa.TPCompo;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public class Person {
 
-    private int id;
+    @Id
+    @GeneratedValue
+    private Long id;
     private String name;
     private String surname;
     private String phone;
@@ -11,7 +18,7 @@ public class Person {
     public Person() {
     };
 
-    public Person(int id, String name, String surname, String phone, String city) {
+    public Person(Long id, String name, String surname, String phone, String city) {
         super();
         this.id = id;
         this.name = name;
@@ -28,11 +35,11 @@ public class Person {
         this.city = city;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
