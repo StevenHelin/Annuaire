@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +43,16 @@ public class RestAnnuaireController {
 
 
     @PostMapping("/entree")
-    public void ajout(@RequestBody Person p){
-        this.personRepository.save(p);
+    public ResponseEntity<?> ajout(@RequestBody Person p){
+        List <Person> personList = ps.getAll();
+        if(personList.contains(p)){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }else{
+            this.ps.addPerson(p);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+
+
     }
 
     @DeleteMapping("/entree/{id}")
@@ -59,15 +68,19 @@ public class RestAnnuaireController {
     }
 
     @PutMapping("/entree")
-    public String modifier(Model model,@RequestParam (name="id", required=true) Long id,@RequestParam (name="name", required=false) String name,@RequestParam (name="surname", required=false) String surname,@RequestParam (name="phone", required=false) String phone,@RequestParam (name="city", required=false) String city){
-        Optional<Person> p=this.ps.getFromId(id);
-        if (p.isPresent()){
-            p.get().setCity(city);
-            p.get().setName(name);
-            p.get().setSurname(surname);
-            p.get().setPhone(phone);
-            personRepository.save(p.get());
+    public ResponseEntity<?> modifier(@RequestBody Person p){
+        Optional<Person> p2;
+        p2=ps.getFromId(p.getId());
+        if (p2.isPresent()){
+            p2.get().setCity(p.getCity());
+            p2.get().setName(p.getName());
+            p2.get().setSurname(p.getSurname());
+            p2.get().setPhone(p.getPhone());
+            ps.addPerson(p2.get());
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }else{
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        return "redirect:/annuaire";
+
     }
 }

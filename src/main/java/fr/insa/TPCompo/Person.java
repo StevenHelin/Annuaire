@@ -3,6 +3,7 @@ package fr.insa.TPCompo;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 public class Person {
@@ -73,6 +74,14 @@ public class Person {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return Objects.equals(name, person.name) && Objects.equals(surname, person.surname) && Objects.equals(phone, person.phone) && Objects.equals(city, person.city);
     }
 
 }
